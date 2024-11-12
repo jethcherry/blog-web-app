@@ -15,5 +15,7 @@ public interface PostService {
     PostDto findPostById(UUID id);
 
     void updatePost(PostDto postDto);
+    void deletePosts(UUID id);
+    PostDto findPostByUrl(String url);
 
 }
