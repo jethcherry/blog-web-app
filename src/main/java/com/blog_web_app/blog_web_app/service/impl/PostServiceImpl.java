@@ -48,4 +48,15 @@ public class PostServiceImpl implements PostService {
         PostEntity post = PostMapper.mapToPostEntity(postDto);
         postRepository.save(post);
     }
+
+    @Override
+    public void deletePosts(UUID id) {
+        postRepository.deleteById(id);
+    }
+
+    @Override
+    public PostDto findPostByUrl(String url) {
+        PostEntity post = postRepository.findByUrl(url).get();
+        return  PostMapper.mapToPostDto(post);
+    }
 }
