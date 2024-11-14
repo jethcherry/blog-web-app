@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -80,19 +77,32 @@ public class PostController {
 
     //handler method to handle deletePost request
     @GetMapping("/admin/posts/{id}/delete")
-    public String deletePost(@PathVariable("id") UUID id){
+    public String deletePost(@PathVariable("id") UUID id) {
         postService.deletePosts(id);
         return "redirect:/admin/posts";
 
     }
 
     //handler method to hande view post request
-    @GetMapping("/admin/post/{url}/view")
-    public  String viewPost(@PathVariable("url") String url, Model model){
-        PostDto postDto = postService.findPostByUrl(url);
-        model.addAttribute("post",postDto);
+    @GetMapping("/admin/posts/{id}/view")
+    public String viewPost(@PathVariable("id") UUID id, Model model) {
+        PostDto postDto = postService.findPostById(id);
+        model.addAttribute("post", postDto);
         return "admin/view_post";
     }
+
+    //handler method to handle to search blog post request
+    //url-localhost:8080/admin/posts/search?query=java
+    @GetMapping("/admin/posts/search")
+    public String searchPosts(@RequestParam(value = "query") String query,Model model) {
+        List<PostDto> posts = postService.searchPosts(query);
+        model.addAttribute("posts",posts);
+        return "admin/posts";
+
+    }
+
+    //handlet method
+
 
     public static String getUrl(String postTitle) {
         String title = postTitle.trim().toLowerCase();

@@ -10,12 +10,15 @@ public interface PostService {
 
     List<PostDto> findAllPosts();
 
-    void  createPost(PostDto postDto);
+    void createPost(PostDto postDto);
 
     PostDto findPostById(UUID id);
 
     void updatePost(PostDto postDto);
+
     void deletePosts(UUID id);
+
     PostDto findPostByUrl(String url);
+    List<PostDto>  searchPosts(String query);
 
 }
