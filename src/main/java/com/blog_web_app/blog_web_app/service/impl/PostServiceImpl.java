@@ -26,9 +26,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> findAllPosts() {
         List<PostEntity> posts = postRepository.findAll();
-        return posts.stream()
-                .map(PostMapper::mapToPostDto)
-                .collect(Collectors.toList());
+        return posts.stream().map(PostMapper::mapToPostDto).collect(Collectors.toList());
     }
 
     @Override
@@ -57,6 +55,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto findPostByUrl(String url) {
         PostEntity post = postRepository.findByUrl(url).get();
-        return  PostMapper.mapToPostDto(post);
+        return PostMapper.mapToPostDto(post);
+    }
+
+    @Override
+    public List<PostDto> searchPosts(String query) {
+        List<PostEntity> posts = postRepository.searchPost(query);
+        return posts.stream().map(PostMapper::mapToPostDto).collect(Collectors.toList());
     }
 }
