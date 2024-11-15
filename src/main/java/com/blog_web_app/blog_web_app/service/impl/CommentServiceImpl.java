@@ -9,8 +9,10 @@ import com.blog_web_app.blog_web_app.repository.PostRepository;
 import com.blog_web_app.blog_web_app.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,5 +32,14 @@ public class CommentServiceImpl implements CommentService {
         CommentEntity comment = CommentMapper.mapToCommentEntity(commentDto);
         comment.setPost(post);
         commentRepository.save(comment);
+    }
+
+    @Override
+    public List<CommentDto> findAllComments() {
+
+        List<CommentEntity> comments = commentRepository.findAll();
+        return comments.stream()
+                .map(CommentMapper::mapToCommentDto)
+                .collect(Collectors.toList());
     }
 }
