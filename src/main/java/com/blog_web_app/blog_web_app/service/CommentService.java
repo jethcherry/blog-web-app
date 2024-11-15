@@ -9,4 +9,6 @@ public interface CommentService {
     void createComment(UUID id, CommentDto commentDto);
 
     List<CommentDto> findAllComments();
+
+    void deleteComment(UUID id);
 }

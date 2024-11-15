@@ -44,6 +44,14 @@ public class PostController {
 
     }
 
+    //handler method to handle delete comment feature
+    @GetMapping("/admin/posts/comments/{id}")
+    public String deleteComment(@PathVariable("id") UUID id) {
+        System.out.println("Deleting comment with ID: " + id);
+        commentService.deleteComment(id);
+        return "redirect:/admin/posts/comments";
+    }
+
     //handle method to handle new post request
     @GetMapping("/admin/posts/newpost")
     public String newPostForm(Model model) {
