@@ -1,7 +1,9 @@
 package com.blog_web_app.blog_web_app.controller;
 
 
+import com.blog_web_app.blog_web_app.dto.CommentDto;
 import com.blog_web_app.blog_web_app.dto.PostDto;
+import com.blog_web_app.blog_web_app.service.CommentService;
 import com.blog_web_app.blog_web_app.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,11 @@ import java.util.UUID;
 public class PostController {
 
     private PostService postService;
+    private CommentService commentService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
 
@@ -29,6 +33,23 @@ public class PostController {
         model.addAttribute("posts", posts);
         return "admin/posts";
 
+    }
+
+    //handler method to handle list comments request
+    @GetMapping("/admin/posts/comments")
+    public String postComments(Model model) {
+        List<CommentDto> comments = commentService.findAllComments();
+        model.addAttribute("comments", comments);
+        return "admin/comments";
+
+    }
+
+    //handler method to handle delete comment feature
+    @GetMapping("/admin/posts/comments/{id}")
+    public String deleteComment(@PathVariable("id") UUID id) {
+        System.out.println("Deleting comment with ID: " + id);
+        commentService.deleteComment(id);
+        return "redirect:/admin/posts/comments";
     }
 
     //handle method to handle new post request
@@ -43,7 +64,6 @@ public class PostController {
     @PostMapping("/admin/posts")
     public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
 
-
         if (result.hasErrors()) {
             model.addAttribute("post", postDto);
             return "admin/create-post";
@@ -51,7 +71,6 @@ public class PostController {
         postDto.setUrl(getUrl(postDto.getTitle()));
         postService.createPost(postDto);
         return "redirect:/admin/posts";
-
     }
 
     //handler method to handle edit post request
@@ -94,9 +113,9 @@ public class PostController {
     //handler method to handle to search blog post request
     //url-localhost:8080/admin/posts/search?query=java
     @GetMapping("/admin/posts/search")
-    public String searchPosts(@RequestParam(value = "query") String query,Model model) {
+    public String searchPosts(@RequestParam(value = "query") String query, Model model) {
         List<PostDto> posts = postService.searchPosts(query);
-        model.addAttribute("posts",posts);
+        model.addAttribute("posts", posts);
         return "admin/posts";
 
     }

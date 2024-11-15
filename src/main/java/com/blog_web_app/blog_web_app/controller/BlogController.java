@@ -1,5 +1,6 @@
 package com.blog_web_app.blog_web_app.controller;
 
+import com.blog_web_app.blog_web_app.dto.CommentDto;
 import com.blog_web_app.blog_web_app.dto.PostDto;
 import com.blog_web_app.blog_web_app.service.PostService;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,9 @@ public class BlogController {
     @GetMapping("/post/{id}")
     private String showPost(@PathVariable("id") UUID id, Model model) {
         PostDto post = postService.findPostById(id);
+        CommentDto commentDto = new CommentDto();
         model.addAttribute("post", post);
+        model.addAttribute("comment", commentDto);
         return "blog/blog_post";
     }
 
