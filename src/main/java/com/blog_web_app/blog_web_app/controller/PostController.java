@@ -56,7 +56,6 @@ public class PostController {
     @PostMapping("/admin/posts")
     public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
 
-
         if (result.hasErrors()) {
             model.addAttribute("post", postDto);
             return "admin/create-post";
@@ -64,7 +63,6 @@ public class PostController {
         postDto.setUrl(getUrl(postDto.getTitle()));
         postService.createPost(postDto);
         return "redirect:/admin/posts";
-
     }
 
     //handler method to handle edit post request
