@@ -38,7 +38,12 @@
     <div class="row col-md-8 offset-md-2">
         <div class="card">
             <div class="card-header">
-                <h2 class="text-center"></h2>
+                <h2 class="text-center">Registration</h2>
+            </div>
+            <div th:if="${param.success}">
+                <div class="alert alert-info">
+                    You have Registered Successfully to our Blog app!
+                </div>
             </div>
             <div class="card-body">
                 <form method="post"
@@ -92,7 +97,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <button type="submit" class="btn btn-primary">Register</button>
-                        <span>Already Registered? <a th:href="@{/login}">Login</a></span>
+                        <span>Already Registered? <a th:href="@{/login}">Login Here</a></span>
                     </div>
 
                 </form>
@@ -102,5 +107,20 @@
 
     </div>
 </div>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+<footer class="footer-copyright text-center bg-dark py-3"
+        style="position:fixed; height:80px; width:100%; bottom:0; color:white"
+        th:fragment="footer"
+>
+    <div class="container">
+        <p class="mb-0 text-black">© 2024 Jethro. All rights reserved.</p>
+
+    </div>
+</footer>
 </body>
 </html>
