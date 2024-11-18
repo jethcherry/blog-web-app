@@ -41,6 +41,7 @@ public class WebSpringSecurity {
                                         .hasAnyRole("ADMIN", "GUEST")
                                         .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher("/post/**")).permitAll()
+                                        .anyRequest().authenticated()
                         )
                         .formLogin(form -> form
                                 .loginPage("/login")
