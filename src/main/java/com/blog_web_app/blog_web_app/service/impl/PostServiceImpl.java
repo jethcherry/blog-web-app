@@ -2,9 +2,12 @@ package com.blog_web_app.blog_web_app.service.impl;
 
 import com.blog_web_app.blog_web_app.dto.PostDto;
 import com.blog_web_app.blog_web_app.entity.PostEntity;
+import com.blog_web_app.blog_web_app.entity.UserEntity;
 import com.blog_web_app.blog_web_app.mapper.PostMapper;
 import com.blog_web_app.blog_web_app.repository.PostRepository;
+import com.blog_web_app.blog_web_app.repository.UserRepository;
 import com.blog_web_app.blog_web_app.service.PostService;
+import com.blog_web_app.blog_web_app.util.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +20,12 @@ public class PostServiceImpl implements PostService {
 
 
     private PostRepository postRepository;
+    private UserRepository userRepository;
 
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -31,7 +36,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void createPost(PostDto postDto) {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        UserEntity user = userRepository.findByEmail(email);
         PostEntity post = PostMapper.mapToPostEntity(postDto);
+        post.setCreatedBy(user);
         postRepository.save(post);
     }
 

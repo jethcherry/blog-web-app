@@ -27,7 +27,6 @@ public class PostEntity {
     private String title;
     private String url;
 
-
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
     private String shortDescription;
