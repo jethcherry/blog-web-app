@@ -11,4 +11,6 @@ public interface CommentService {
     List<CommentDto> findAllComments();
 
     void deleteComment(UUID id);
+
+    List<CommentDto> findCommentsByPost();
 }

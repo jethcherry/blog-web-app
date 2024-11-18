@@ -38,11 +38,12 @@ public class PostController {
     //handler method to handle list comments request
     @GetMapping("/admin/posts/comments")
     public String postComments(Model model) {
-        List<CommentDto> comments = commentService.findAllComments();
+        List<CommentDto> comments = commentService.findCommentsByPost();
         model.addAttribute("comments", comments);
         return "admin/comments";
 
     }
+
 
     //handler method to handle delete comment feature
     @GetMapping("/admin/posts/comments/{id}")
