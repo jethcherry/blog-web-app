@@ -20,12 +20,15 @@ public class WebSpringSecurity {
                                 authorize.requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher("/register**")).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher("/admin/**"))
-                                        .hasAnyRole("ADMIN","GUEST")
+                                        .hasAnyRole("ADMIN", "GUEST")
                         )
                         .formLogin(form -> form
                                 .loginPage("/login")
                                 .defaultSuccessUrl("/admin/posts")
                                 .loginProcessingUrl("/login")
+                                .permitAll()
+                        )
+                        .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
                         );
             } catch (Exception e) {
