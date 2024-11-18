@@ -51,7 +51,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePost(PostDto postDto) {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        UserEntity createdBy = userRepository.findByEmail(email);
         PostEntity post = PostMapper.mapToPostEntity(postDto);
+        post.setCreatedBy(createdBy);
         postRepository.save(post);
     }
 
