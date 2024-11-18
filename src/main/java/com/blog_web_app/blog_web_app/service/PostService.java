@@ -10,6 +10,8 @@ public interface PostService {
 
     List<PostDto> findAllPosts();
 
+    List<PostDto> findPostsByUser();
+
     void createPost(PostDto postDto);
 
     PostDto findPostById(UUID id);
@@ -19,6 +21,7 @@ public interface PostService {
     void deletePosts(UUID id);
 
     PostDto findPostByUrl(String url);
-    List<PostDto>  searchPosts(String query);
+
+    List<PostDto> searchPosts(String query);
 
 }

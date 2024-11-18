@@ -35,6 +35,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostDto> findPostsByUser() {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        UserEntity createdBy = userRepository.findByEmail(email);
+        UUID userId = createdBy.getId();
+        List<PostEntity> posts = postRepository.findPostByUser(userId);
+        return posts.stream().map((post) -> PostMapper.mapToPostDto(post))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void createPost(PostDto postDto) {
         String email = SecurityUtils.getCurrentUser().getUsername();
         UserEntity user = userRepository.findByEmail(email);
