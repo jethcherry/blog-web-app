@@ -31,28 +31,9 @@ public class AuthController {
 
     }
 
-    //handler method to handle user registration form submit request
-//    @PostMapping("/register/save")
-//    public String register(@Valid @ModelAttribute("user") RegisterDto user,
-//                           BindingResult result,
-//                           Model model) {
-//        UserEntity existingUser = userService.findByEmail(user.getEmail());
-//        if (existingUser != null && existingUser.getEmail() != null && existingUser.getEmail().isEmpty()) {
-//            result.rejectValue("email", null, "There is already a user with the same email id");
-//        }
-//
-//        if (result.hasErrors()) {
-//            model.addAttribute("user", user);
-//        }
-//        userService.saveUser(user);
-//        return "redirect:/register?success";
-//
-//    }
 
     @PostMapping("/register/save")
-    public String register(@Valid @ModelAttribute("user") RegisterDto user,
-                           BindingResult result,
-                           Model model) {
+    public String register(@Valid @ModelAttribute("user") RegisterDto user, BindingResult result, Model model) {
         // Check if user with same email already exists
         UserEntity existingUser = userService.findByEmail(user.getEmail());
         if (existingUser != null && existingUser.getEmail() != null && existingUser.getEmail().isEmpty()) {
