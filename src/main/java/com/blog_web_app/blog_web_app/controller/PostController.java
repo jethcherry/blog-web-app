@@ -5,6 +5,8 @@ import com.blog_web_app.blog_web_app.dto.CommentDto;
 import com.blog_web_app.blog_web_app.dto.PostDto;
 import com.blog_web_app.blog_web_app.service.CommentService;
 import com.blog_web_app.blog_web_app.service.PostService;
+import com.blog_web_app.blog_web_app.util.ROLE;
+import com.blog_web_app.blog_web_app.util.SecurityUtils;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +31,13 @@ public class PostController {
     //Create a handler method, Get request and a model and view
     @GetMapping("/admin/posts")
     public String posts(Model model) {
-        List<PostDto> posts = postService.findAllPosts();
+        String role = SecurityUtils.getRole();
+        List<PostDto> posts = null;
+        if (ROLE.ROLE_ADMIN.name().equals(role)) {
+            posts = postService.findPostsByUser();
+        } else {
+            posts = postService.findPostsByUser();
+        }
         model.addAttribute("posts", posts);
         return "admin/posts";
 
@@ -38,11 +46,19 @@ public class PostController {
     //handler method to handle list comments request
     @GetMapping("/admin/posts/comments")
     public String postComments(Model model) {
-        List<CommentDto> comments = commentService.findAllComments();
+        String role = SecurityUtils.getRole();
+        List<CommentDto> comments = null;
+        if (ROLE.ROLE_ADMIN.name().equals(role)) {
+            comments = commentService.findAllComments();
+        } else {
+            comments = commentService.findCommentsByPost();
+
+        }
         model.addAttribute("comments", comments);
         return "admin/comments";
 
     }
+
 
     //handler method to handle delete comment feature
     @GetMapping("/admin/posts/comments/{id}")
@@ -120,9 +136,7 @@ public class PostController {
 
     }
 
-    //handlet method
-
-
+    //handler method
     public static String getUrl(String postTitle) {
         String title = postTitle.trim().toLowerCase();
         String url = title.replaceAll("\\+", "-");

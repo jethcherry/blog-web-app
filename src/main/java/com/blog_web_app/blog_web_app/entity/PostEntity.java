@@ -17,7 +17,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "posts")
-public class  PostEntity {
+public class PostEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,7 +26,6 @@ public class  PostEntity {
     @Column(nullable = false)
     private String title;
     private String url;
-
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
@@ -37,6 +36,10 @@ public class  PostEntity {
     @CreationTimestamp
     private LocalDateTime updatedOn;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private UserEntity createdBy;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<CommentEntity> comments = new HashSet<>();
 }

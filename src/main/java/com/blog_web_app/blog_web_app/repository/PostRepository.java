@@ -15,4 +15,8 @@ public interface PostRepository extends JpaRepository<PostEntity, UUID> {
 
     @Query("SELECT p FROM PostEntity p WHERE p.title LIKE %:query% OR p.shortDescription LIKE %:query%")
     List<PostEntity> searchPost(@Param("query") String query);
+
+
+    @Query(value = "SELECT * FROM posts p WHERE p.created_by=:userId", nativeQuery = true)
+    List<PostEntity> findPostByUser(UUID userId);
 }
